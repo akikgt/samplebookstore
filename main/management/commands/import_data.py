@@ -27,6 +27,7 @@ class Command(BaseCommand):
                 tag, tag_created = models.ProductTag.objects.get_or_create(
                     name=import_tag
                 )
+                tag.slug = slugify("aaaa")
                 product.tags.add(tag)
                 c["tags"] += 1
                 if tag_created:
