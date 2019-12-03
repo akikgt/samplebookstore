@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
-from main import views
+from django.views.generic.detail import DetailView
+from main import views, models
 
 urlpatterns = [
     path(
@@ -15,13 +16,18 @@ urlpatterns = [
         name="contact_us"
     ),
     path(
-        "product/<slug:tag>/",
-        views.ProductListView.as_view(),
-        name="product"
+        "product/<slug:slug>/",
+        DetailView.as_view(model=models.Product),
+        name="product",
     ),
     path(
         "products/<slug:tag>/",
         views.ProductListView.as_view(),
         name="products"
+    ),
+    path(
+        "product/",
+        DetailView.as_view(model=models.Product),
+        name="add_to_basket",
     ),
 ]
