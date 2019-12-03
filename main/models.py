@@ -10,7 +10,7 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=True)
     date_updated = models.DateTimeField(auto_now=True)
 
-class ProductImages(models.Model):
+class ProductImage(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE
     )
