@@ -134,7 +134,7 @@ class Basket(models.Model):
         return self.basketline_set.all().count() == 0
 
     def count(self):
-        return sum(i.quantity for i in self.basketline_set.al())
+        return sum(i.quantity for i in self.basketline_set.all())
 
 class BasketLine(models.Model):
     basket = models.ForeignKey(Basket, on_delete=models.CASCADE)

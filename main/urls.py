@@ -65,4 +65,9 @@ urlpatterns = [
         DetailView.as_view(model=models.Product),
         name="add_to_basket",
     ),
+    path(
+        "add_to_basket/",
+        views.add_to_basket,
+        name="add_to_basket",
+    ),
 ]
