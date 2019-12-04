@@ -186,6 +186,13 @@ class TestPage(TestCase):
             models.Basket.objects.filter(user=user1).exists()
         )
         self.assertEquals(
+            models.BasketLine.objects.get(
+                basket__user=user1,
+                product__id=cb.id,
+            ).quantity,
+            2,
+        )
+        self.assertEquals(
             models.BasketLine.objects.filter(
                 basket__user=user1
             ).count(),
