@@ -5,6 +5,11 @@ from main import views, models
 
 urlpatterns = [
     path(
+        "signup/",
+        views.SignupView.as_view(),
+        name="signup",
+    ),
+    path(
         "about-us/",
         TemplateView.as_view(template_name="about_us.html")),
     path(
@@ -26,6 +31,7 @@ urlpatterns = [
         name="products"
     ),
     path(
+        # just stub
         "product/",
         DetailView.as_view(model=models.Product),
         name="add_to_basket",
