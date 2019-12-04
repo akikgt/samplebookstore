@@ -9,6 +9,8 @@ from .import models
 
 from django.contrib.auth import authenticate
 
+from django.forms import inlineformset_factory
+
 logger = logging.getLogger(__name__)
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -82,3 +84,10 @@ class ContactForm(forms.Form):
             ["customerservice@booktime.domain"],
             fail_silently=False,
         )
+
+BasketLineFormSet = inlineformset_factory(
+    models.Basket,
+    models.BasketLine,
+    fields=("quantity", ),
+    extra=0
+)

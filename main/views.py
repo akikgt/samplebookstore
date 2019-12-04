@@ -23,6 +23,8 @@ from django.views.generic.edit import (
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from django.shortcuts import get_object_or_404, render
+
 logger = logging.getLogger(__name__)
 
 class AddressListView(LoginRequiredMixin, ListView):
@@ -150,3 +152,23 @@ def add_to_basket(request):
     return HttpResponseRedirect(
         reverse("product", args=(product.slug, ))
     )
+
+def manage_basket(request):
+    if not request.basket:
+        return render(request, "basket.html", {"formset": None})
+
+    if request.method == "POST":
+        formset = forms.BasketLineFormSet(
+            request.POST, instance=request.basket
+        )
+        if formset.is_valid():
+            formset.save()
+    else:
+        formset = forms.BasketLineFormSet(
+            instance=request.basket
+        )
+
+    if request.basket.is_empty():
+        return render(request, "basket.html", {"formset": None})
+    
+    return render(request, "basket.html", {"formset": formset})

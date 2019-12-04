@@ -70,4 +70,9 @@ urlpatterns = [
         views.add_to_basket,
         name="add_to_basket",
     ),
+    path(
+        "basket/",
+        views.manage_basket,
+        name="basket"
+    ),
 ]
