@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager
 )
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 class ActiveManager(models.Manager):
@@ -40,6 +41,7 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     username = None
     email = models.EmailField('email address', unique=True)
@@ -74,6 +76,7 @@ class Address(models.Model):
                 self.country,
             ]
         )
+
 
 class ProductTagManager(models.Manager):
     def get_by_natural_key(self, slug):
@@ -115,4 +118,27 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to="product-images")
     thumbnail = models.ImageField(
         upload_to="product-thumnails", null=True
+    )
+
+class Basket(models.Model):
+    OPEN = 10
+    SUBMITTD = 20
+    STATUSES = ((OPEN, "Open"), (SUBMITTD, "Submitted"))
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True
+    )
+    status = models.IntegerField(choices=STATUSES, default=OPEN)
+
+    def is_empty(self):
+        return self.basketline_set.all().count() == 0
+
+    def count(self):
+        return sum(i.quantity for i in self.basketline_set.al())
+
+class BasketLine(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(
+        default = 1, validators=[MinValueValidator(1)]
     )
