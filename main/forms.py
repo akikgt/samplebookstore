@@ -10,6 +10,7 @@ from .import models
 from django.contrib.auth import authenticate
 
 from django.forms import inlineformset_factory
+from . import widgets
 
 logger = logging.getLogger(__name__)
 
@@ -89,5 +90,6 @@ BasketLineFormSet = inlineformset_factory(
     models.Basket,
     models.BasketLine,
     fields=("quantity", ),
-    extra=0
+    extra=0,
+    widgets={"quantity": widgets.PlusMinusNumberInput()}
 )
